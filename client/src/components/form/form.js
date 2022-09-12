@@ -83,9 +83,9 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           style={{ marginBottom: "16px" }}
           required
-          name="code"
+          name="Status"
           variant="outlined"
-          label="code"
+          label="Status"
           fullWidth
           value={postData.code}
           onChange={(e) => setPostData({ ...postData, code: e.target.value })}
