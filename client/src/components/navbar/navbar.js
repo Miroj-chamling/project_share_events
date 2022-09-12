@@ -5,7 +5,7 @@ const MuiNavbar = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h4" align="center" marginLeft={2}>
-          Share Memories
+          Share Events
         </Typography>
       </Toolbar>
     </AppBar>

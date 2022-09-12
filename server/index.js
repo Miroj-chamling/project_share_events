@@ -2,22 +2,24 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
-
+import dotenv from "dotenv";
 import postRoutes from "./routes/posts.js";
 
 const app = express();
+dotenv.config();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRoutes);
+app.get("/", (req, res) => {
+  res.send("This is share events api");
+});
 
-const CONNECTON_URL =
-  "mongodb+srv://miroj:strawhatcrew001@cluster0.mwgcc9i.mongodb.net/?retryWrites=true&w=majority";
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 mongoose
-  .connect(CONNECTON_URL, {
+  .connect(process.env.CONNECTON_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

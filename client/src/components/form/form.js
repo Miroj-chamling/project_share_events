@@ -43,11 +43,15 @@ const Form = ({ currentId, setCurrentId }) => {
       selectedFile: "",
     });
   };
+
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <Paper style={{ padding: "20px" }}>
       <form autoComplete="off" onSubmit={onSubmitHandler}>
         <Typography variant="h6" style={{ marginBottom: "20px" }}>
-          {currentId ? "Editing" : "Creating"} a memory
+          {currentId ? "Editing" : "Creating"} a Event
         </Typography>
         <TextField
           style={{ marginBottom: "16px" }}
@@ -58,7 +62,10 @@ const Form = ({ currentId, setCurrentId }) => {
           required
           value={postData.creator}
           onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
+            setPostData({
+              ...postData,
+              creator: capitalize(e.target.value),
+            })
           }
         />
         <TextField
@@ -69,7 +76,9 @@ const Form = ({ currentId, setCurrentId }) => {
           label="title"
           fullWidth
           value={postData.title}
-          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, title: capitalize(e.target.value) })
+          }
         />
         <TextField
           style={{ marginBottom: "16px" }}
@@ -89,7 +98,9 @@ const Form = ({ currentId, setCurrentId }) => {
           label="tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <FileBase
           type="file"
