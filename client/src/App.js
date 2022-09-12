@@ -9,11 +9,10 @@ import { getPosts } from "./actions/posts";
 
 const App = () => {
   const [currentId, setCurrentId] = useState(0);
-  const dispatch = useDispatch(); //we use dispatch hook to dispatch the action that we have created.
+  const dispatch = useDispatch();
 
-  //useEffect hook is used fetch data, render changed data on the first load.
   useEffect(() => {
-    dispatch(getPosts()); //we dispatch the action getposts as soon the website renders.
+    dispatch(getPosts());
   }, [dispatch]);
 
   return (

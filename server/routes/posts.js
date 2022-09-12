@@ -5,8 +5,7 @@ import {
   updatePost,
   deletePost,
   likePost,
-} from "../controllers/posts.js"; //route controllers has been created to handle the routes more effeciently.
-
+} from "../controllers/posts.js";
 const router = express.Router();
 
 router.get("/", getPosts);
