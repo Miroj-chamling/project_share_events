@@ -1,16 +1,11 @@
 import * as api from "../api/index.js"; //using * import we can use all the functions in api files.
-import {
-  CREATE,
-  FETCH_ALL,
-  UPDATE,
-  DELETE,
-} from "../constants/reducersActionTypes.js";
+import { ActionTypes } from "../constants/reducersActionTypes.js";
 
 export const getPosts = () => async (dispatch) => {
   try {
     const { data } = await api.fetchPosts();
 
-    dispatch({ type: FETCH_ALL, payload: data });
+    dispatch({ type: ActionTypes.FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error.message);
   }
@@ -19,7 +14,7 @@ export const getPosts = () => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
-    dispatch({ type: CREATE, payload: data });
+    dispatch({ type: ActionTypes.CREATE, payload: data });
   } catch (error) {
     console.log(error.message);
   }
@@ -28,7 +23,7 @@ export const createPost = (post) => async (dispatch) => {
 export const updatePost = (id, post) => async (dispatch) => {
   try {
     const { data } = await api.updatePost(id, post);
-    dispatch({ type: UPDATE, payload: data });
+    dispatch({ type: ActionTypes.UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +32,7 @@ export const updatePost = (id, post) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id);
-    dispatch({ type: DELETE, payload: id });
+    dispatch({ type: ActionTypes.DELETE, payload: id });
   } catch (error) {
     console.log(error);
   }
@@ -46,6 +41,6 @@ export const deletePost = (id) => async (dispatch) => {
 export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likePost(id);
-    dispatch({ type: UPDATE, payload: data });
+    dispatch({ type: ActionTypes.UPDATE, payload: data });
   } catch (error) {}
 };
