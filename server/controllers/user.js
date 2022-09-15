@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 import User from "../models/user.js";
-import user from "../models/user.js";
 
 export const signin = async (req, res) => {
   dotenv.config();
