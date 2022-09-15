@@ -8,8 +8,9 @@ import { Avatar, Button, Grid, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import LockIcon from "@mui/icons-material/Lock";
 import Input from "./Input";
+import { signin, signup } from "../../actions/auth";
 
-const initiallFormData = {
+const initialFormData = {
   firstName: "",
   lastName: "",
   email: "",
@@ -25,15 +26,15 @@ const Auth = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [formData, setFormData] = useState(initiallFormData);
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignUp) {
-      dispatch({ type: ActionTypes.SIGNIN });
+      dispatch(signup(formData, navigate));
     } else {
+      dispatch(signin(formData, navigate));
     }
-    console.log(formData);
   };
 
   const handleChange = (e) => {
@@ -42,7 +43,9 @@ const Auth = () => {
 
   const handleShowPassword = () => setShowPassword((state) => !state);
 
-  const switchMode = () => setIsSignUp((signupState) => !signupState);
+  const switchMode = () => {
+    setIsSignUp((signupState) => !signupState);
+  };
 
   const googleSuccessHandler = async (res) => {
     const response = res?.profileObj;

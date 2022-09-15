@@ -1,11 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
 import User from "../models/user.js";
 
 export const signin = async (req, res) => {
-  dotenv.config();
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
@@ -24,7 +22,7 @@ export const signin = async (req, res) => {
         email: existingUser.email,
         id: existingUser._id,
       },
-      process.env.SECRECT_KEY,
+      "test",
       { expiresIn: "1h" }
     );
 
@@ -39,7 +37,9 @@ export const signup = async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
-    if (password !== confirmPassword) return res.status(400);
+
+    if (password !== confirmPassword)
+      return res.status(400).json({ message: "password dont match" });
 
     const hashedPassword = await bcrypt.hash(password, 12); //12:salt
 
@@ -49,13 +49,18 @@ export const signup = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign({
-      email: response.email,
-      id: response._id,
-    });
+    const token = jwt.sign(
+      {
+        email: response.email,
+        id: response._id,
+      },
+      "test",
+      { expiresIn: "1h" }
+    );
 
     res.status(200).json({ response, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
+    console.log(error);
   }
 };

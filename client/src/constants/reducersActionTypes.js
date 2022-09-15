@@ -5,6 +5,4 @@ export const ActionTypes = {
   DELETE: "DELETE",
   AUTH: "AUTH",
   LOGOUT: "LOGOUT",
-  SIGNIN: "SIGNIN",
-  SIGNUP: "SIGNUP",
 };
