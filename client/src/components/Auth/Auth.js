@@ -9,21 +9,36 @@ import { Container } from "@mui/system";
 import LockIcon from "@mui/icons-material/Lock";
 import Input from "./Input";
 
+const initiallFormData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
+const clientId =
+  "296660586296-f1gsaetnf70j1n4p8d6f118sol7mhrrt.apps.googleusercontent.com";
+
 const Auth = () => {
-  const clientId =
-    "296660586296-f1gsaetnf70j1n4p8d6f118sol7mhrrt.apps.googleusercontent.com";
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
-
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initiallFormData);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      dispatch({ type: ActionTypes.SIGNIN });
+    } else {
+    }
+    console.log(formData);
+  };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => setShowPassword((state) => !state);
 
@@ -93,7 +108,7 @@ const Auth = () => {
               </>
             )}
             <Input
-              name="Email"
+              name="email"
               label="Email Address"
               handleChange={handleChange}
               type="email"
@@ -107,8 +122,8 @@ const Auth = () => {
             ></Input>
             {isSignUp && (
               <Input
-                name="confirm Password"
-                label="confirm Password"
+                name="confirmPassword"
+                label="confirmPassword"
                 handleChange={handleChange}
                 type="password"
               />
@@ -123,23 +138,25 @@ const Auth = () => {
           >
             {isSignUp ? "Sign Up" : "Sign in "}
           </Button>
-          <GoogleLogin
-            clientId={clientId}
-            render={(renderProps) => (
-              <Button
-                fullWidth
-                color="primary"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                variant="contained"
-              >
-                Google Sign In
-              </Button>
-            )}
-            onSuccess={googleSuccessHandler}
-            onFailure={googleFailureHandler}
-            cookiePolicy="single_host_origin"
-          />
+          <Button fullWidth>
+            <GoogleLogin
+              clientId={clientId}
+              // render={(renderProps) => (
+              //   <Button
+              //     fullWidth
+              //     color="primary"
+              //     onClick={renderProps.onClick}
+              //     disabled={renderProps.disabled}
+              //     variant="contained"
+              //   >
+              //     Google Sign In
+              //   </Button>
+              // )}
+              onSuccess={googleSuccessHandler}
+              onFailure={googleFailureHandler}
+              cookiePolicy="single_host_origin"
+            />
+          </Button>
           <Typography
             variant="body2"
             style={{ textAlign: "center", marginTop: 16 }}
