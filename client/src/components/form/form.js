@@ -8,7 +8,6 @@ import { createPost, updatePost } from "../../actions/posts";
 const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     tags: "",
     code: "",
@@ -18,6 +17,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (post) setPostData(post);
@@ -26,17 +26,17 @@ const Form = ({ currentId, setCurrentId }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
-      //updating the form logic
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.response?.name })
+      );
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.response?.name }));
     }
     clear();
   };
   const clear = (e) => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       tags: "",
       code: "",
@@ -47,27 +47,24 @@ const Form = ({ currentId, setCurrentId }) => {
   const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+
+  if (!user?.response?.name) {
+    return (
+      <Paper>
+        <Typography variant="h5">
+          Please Sign in to create posts and like contents.
+        </Typography>
+      </Paper>
+    );
+  }
+
   return (
     <Paper style={{ padding: "20px" }}>
       <form autoComplete="off" onSubmit={onSubmitHandler}>
         <Typography variant="h6" style={{ marginBottom: "20px" }}>
           {currentId ? "Editing" : "Creating"} a Event
         </Typography>
-        <TextField
-          style={{ marginBottom: "16px" }}
-          name="creator"
-          variant="outlined"
-          label="creator"
-          fullWidth
-          required
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({
-              ...postData,
-              creator: capitalize(e.target.value),
-            })
-          }
-        />
+
         <TextField
           style={{ marginBottom: "16px" }}
           required

@@ -3,10 +3,11 @@ import { AppBar, Typography, Toolbar, Button, Avatar } from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ActionTypes } from "../../constants/reducersActionTypes";
+import decode from "jwt-decode";
 
 const MuiNavbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  console.log(user);
+  //console.log(user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,6 +21,12 @@ const MuiNavbar = () => {
 
   useEffect(() => {
     const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken * 1000 < new Date().getTime()) logout();
+    }
+
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
